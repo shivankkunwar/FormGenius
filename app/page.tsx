@@ -29,9 +29,9 @@ export default function Home() {
           </button>
         </div>
         <div className=" px-4 md:px-6  ">
-          <AnswerComponent type="short"/>
-          <AnswerComponent type="long"/>
-          <AnswerComponent type="long"/>
+          <AnswerComponent type="short answer"/>
+          <AnswerComponent type="long answer"/>
+          <AnswerComponent type="long answer"/>
          
         </div>
         <div className="relative px-4 pb-4 md:px-6 flex justify-center">
