@@ -196,7 +196,7 @@ export default function Home() {
 
             <div className="flex-1 overflow-y-auto">
               {isPreview ? (
-                <FormPreview questions={questions}/>
+                <FormPreview questions={questions} submitAction={handleFormSubmit}/>
               ) : (
                 <>
                   <div className="px-4 md:px-6">

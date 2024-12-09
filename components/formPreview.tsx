@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Circle, AlertCircle } from 'lucide-react'
+import {  AlertCircle } from 'lucide-react'
 
 interface PreviewProps {
   questions: Array<{
@@ -12,10 +12,13 @@ interface PreviewProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     options?: any;
     caption?: string;
-  }>
+  }>,
+  
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  submitAction: any
 }
 
-export default function FormPreview({ questions }: PreviewProps) {
+export default function FormPreview({ questions , submitAction }: PreviewProps) {
   const [answers, setAnswers] = useState<Record<number, string>>({})
   const [errors, setErrors] = useState<Record<number, boolean>>({})
   const [completeness, setCompleteness] = useState(0)
@@ -48,7 +51,9 @@ export default function FormPreview({ questions }: PreviewProps) {
     setErrors(newErrors)
     if (!hasErrors) {
       console.log('Form submitted:', answers)
+      submitAction()
     }
+    
   }
 
   return (
@@ -115,13 +120,12 @@ export default function FormPreview({ questions }: PreviewProps) {
                     <input
                       type="radio"
                       name={`question-${index}`}
-                      className="hidden"
+                      
                       onChange={() => handleInputChange(index, option)}
                       checked={answers[index] === option}
                     />
                     <div className="flex items-center space-x-2 cursor-pointer">
-                      <Circle className={`w-4 h-4 ${answers[index] === option ? 'text-green-500 fill-green-500' : 'text-gray-300'}`} />
-                      <span>{option}</span>
+                        <span>{option}</span>
                     </div>
                   </label>
                 ))}
