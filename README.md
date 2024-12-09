@@ -25,8 +25,8 @@ To get started with this project, follow these steps:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/form-builder-app.git
-   cd form-builder-app
+   git clone https://github.com/shivankkunwar/FormGenius.git
+   cd FormGenius
    ```
 
 2. Install the dependencies:
