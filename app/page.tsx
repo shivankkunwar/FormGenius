@@ -129,7 +129,7 @@ export default function Home() {
             <nav className="flex space-x-4">
               <button
                 onClick={() => setCurrentView('editor')}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-1 py-2 rounded-md text-sm font-medium ${
                   currentView === 'editor'
                     ? 'bg-gray-100 text-gray-900'
                     : 'text-gray-500 hover:text-gray-900'
@@ -139,7 +139,7 @@ export default function Home() {
               </button>
               <button
                 onClick={() => setCurrentView('submissions')}
-                className={`px-3 py-2 rounded-md text-sm font-medium ${
+                className={`px-1 py-2 rounded-md text-sm font-medium ${
                   currentView === 'submissions'
                     ? 'bg-gray-100 text-gray-900'
                     : 'text-gray-500 hover:text-gray-900'

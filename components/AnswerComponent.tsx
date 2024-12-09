@@ -110,7 +110,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
                   <ChevronDown className="h-4 w-4 text-gray-500" />
                 )}
                 <div {...dragHandleProps}>
-                  <GripVertical className="ml-3 md:ml-2 h-5 w-5 text-gray-500 cursor-grab active:cursor-grabbing" />
+                  <GripVertical className="ml md:ml-2 h-5 w-5 text-gray-500 cursor-grab active:cursor-grabbing" />
                 </div>
               </button>
               {showTypeDropdown && (
