@@ -1,29 +1,43 @@
 "use client";
 
 import { useState } from "react";
-import { AlignLeft, ArrowUpRight, CalendarDays, Check, CircleDot, FilePen, Hash, Link, Plus } from "lucide-react";
+import {
+  AlignLeft,
+  ArrowUpRight,
+  CalendarDays,
+  Check,
+  CircleDot,
+  FilePen,
+  Hash,
+  Link,
+  Pencil,
+  Plus,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { formStyles as styles } from "@/styles/form";
 import AnswerComponent from "@/components/AnswerComponent";
 import { FormBuilder } from "@/components/formBuilder";
 import { FormProvider } from "@/context/form-context";
 import { MdOutlineShortText } from "react-icons/md";
-
+import FormPreview from "@/components/formPreview";
+type questions ={
+  type:string,
+  question?:string,
+  error?:boolean
+  options?:any
+  caption?:string
+}
 export default function Home() {
   const [isPreview, setIsPreview] = useState(false);
-  const [answers, setAnswers] = useState([
-    "short answer",
-    "date",
-    "single select",
-  ]);
+  const [questions, setQuestions] = useState<questions[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [dropdownDirection, setDropdownDirection] = useState("down");
   const toggleModal = () => {
     setShowModal(!showModal);
 
     const windowHeight = window.innerHeight;
-    const modalHeight = 400; 
-    const dropdownHeight = 200; 
+    const modalHeight = 400;
+    const dropdownHeight = 200;
     const screenBottom = windowHeight - modalHeight / 2 - dropdownHeight / 2;
 
     if (screenBottom < 0) {
@@ -32,10 +46,11 @@ export default function Home() {
       setDropdownDirection("down");
     }
   };
-  const addQuestionType = (type:string) => {
-    setAnswers([...answers, type]);
+  const addQuestionType = (type: string) => {
+    setQuestions([...questions, {type:type} ]);
     setShowModal(false);
   };
+  console.log(questions)
 
   return (
     <div className="flex flex-col min-h-screen max-w-2xl mx-auto  border z-0">
@@ -46,18 +61,46 @@ export default function Home() {
           className="text-2xl font-medium w-full border-none focus:outline-none focus:ring-0 bg-transparent"
           value="Untitled Form"
         />
-        <button
-          onClick={() => setIsPreview(!isPreview)}
+          <button
+          onClick={() => {
+            const hasEmptyQuestions = questions.some(q => !q.question?.trim());
+            if (hasEmptyQuestions) {
+              const updatedQuestions = questions.map(q => ({
+                ...q,
+                error: !q.question?.trim()
+              }));
+              setQuestions(updatedQuestions);
+              return;
+            }
+            setIsPreview(!isPreview);
+          }}
           className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1 border px-3 py-1 rounded-2xl"
         >
-          Preview <ArrowUpRight className="w-4" />
+          {isPreview ? 'Edit' : 'Preview'} 
+          
+          {isPreview?<Pencil className="w-4"/>:<ArrowUpRight className="w-4" />}
         </button>
       </div>
-      <div className=" px-4 md:px-6  ">
-        {answers.map((ans, i) => (
-          <AnswerComponent key={i} type={ans} />
+      
+      {isPreview?
+      <FormPreview questions={questions}/>:(
+        <>
+        <div className=" px-4 md:px-6  ">
+        {questions.map((question, i) => (
+          <AnswerComponent
+            key={i}
+            type={question.type}
+            question={question?.question}
+            error={question.error}
+            onChange={(updatedQuestion) => {
+              const newQuestions = [...questions];
+              newQuestions[i] = { ...newQuestions[i],...updatedQuestion, error: false };
+              setQuestions(newQuestions);
+            }}
+          />
         ))}
       </div>
+
       <AnimatePresence>
         {showModal && (
           <motion.div
@@ -72,15 +115,21 @@ export default function Home() {
             />
             <div className="bg-white rounded-lg  p-6 relative z-20 w-full max-w-md">
               <h2 className="text-2xl font-bold mb-4">Add Question</h2>
-              <div className={`relative ${dropdownDirection === 'up' ? 'top-auto bottom-full mb-2' : 'bottom-auto top-full mt-2'}`}>
+              <div
+                className={`relative ${
+                  dropdownDirection === "up"
+                    ? "top-auto bottom-full mb-2"
+                    : "bottom-auto top-full mt-2"
+                }`}
+              >
                 <div className="bg-white border rounded-lg  p-4 w-full">
                   <ul>
                     <li
                       className="flex gap-2 hover:bg-gray-100 p-2 cursor-pointer"
                       onClick={() => addQuestionType("short answer")}
                     >
-                     <MdOutlineShortText className="h-6 w-6 text-gray-500" />
-                     Short answer
+                      <MdOutlineShortText className="h-6 w-6 text-gray-500" />
+                      Short answer
                     </li>
                     <li
                       className="flex gap-2 hover:bg-gray-100 p-2 cursor-pointer"
@@ -93,8 +142,8 @@ export default function Home() {
                       className="flex gap-2 hover:bg-gray-100 p-2 cursor-pointer"
                       onClick={() => addQuestionType("single select")}
                     >
-                     <CircleDot className="h-5 w-5 text-gray-500" />
-                     Single select
+                      <CircleDot className="h-5 w-5 text-gray-500" />
+                      Single select
                     </li>
                     <li
                       className=" flex gap-2 hover:bg-gray-100 p-2 cursor-pointer"
@@ -107,15 +156,15 @@ export default function Home() {
                       className="flex gap-2 hover:bg-gray-100 p-2 cursor-pointer"
                       onClick={() => addQuestionType("url")}
                     >
-                       <Link className="h-5 w-5 text-gray-500" />
-                       URL
+                      <Link className="h-5 w-5 text-gray-500" />
+                      URL
                     </li>
                     <li
                       className="flex gap-2 hover:bg-gray-100 p-2 cursor-pointer"
                       onClick={() => addQuestionType("date")}
                     >
-                       <CalendarDays className="h-5 w-5 text-gray-500" />
-                       Date
+                      <CalendarDays className="h-5 w-5 text-gray-500" />
+                      Date
                     </li>
                   </ul>
                 </div>
@@ -143,8 +192,10 @@ export default function Home() {
           Add Question
         </motion.button>
       </div>
+      </>
+      )}
       <div className="flex-1"></div>
-
+      
       <div className="flex justify-between bg-gray-200 items-center border-t pt-4 px-4 md:px-6 pb-4 md:pb=6">
         <button
           className={`${styles.button.secondary} flex px-4 py-2 rounded-2xl  text-black font-semiboldborder bg-white  hover:bg-gray-50`}
