@@ -42,7 +42,7 @@ type questions = {
   type: string;
   question?: string;
   error?: boolean;
-  options?: string[];
+  options?: any;
   caption?: string;
 };
 

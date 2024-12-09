@@ -5,10 +5,12 @@ import { Circle, AlertCircle } from 'lucide-react'
 
 interface PreviewProps {
   questions: Array<{
-    question: string
-    type: string
-    options?: string[],
-    caption?:string
+    id: string;
+    type: string;
+    question?: string;
+    error?: boolean;
+    options?: any;
+    caption?: string;
   }>
 }
 
