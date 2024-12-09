@@ -1,11 +1,14 @@
 import {
   AlignLeft,
+  CalendarDays,
   ChevronDown,
   ChevronUp,
+  Circle,
   CircleDot,
   GripVertical,
   Hash,
   Link,
+  Plus,
 } from "lucide-react";
 import React, { useState } from "react";
 import { MdOutlineShortText } from "react-icons/md";
@@ -15,7 +18,21 @@ type answerType = {
 const AnswerComponent = ({ type }: answerType) => {
   const [answerType, setAnswerType] = useState(type);
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
+  const [options, setOptions] = useState(["Option 1", "Option 2"]);
+  const [date, setDate] = useState("");
 
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+  };
+  const addOption = () => {
+    setOptions([...options, `Option ${options.length + 1}`]);
+  };
+
+  const updateOption = (index, value) => {
+    const updatedOptions = [...options];
+    updatedOptions[index] = value;
+    setOptions(updatedOptions);
+  };
   const handleAnswerTypeChange = (type) => {
     setAnswerType(type);
     setShowTypeDropdown(false);
@@ -48,6 +65,8 @@ const AnswerComponent = ({ type }: answerType) => {
                 <Hash className="h-5 w-5 text-gray-500" />
               ) : answerType === "url" ? (
                 <Link className="h-5 w-5 text-gray-500" />
+              ) : answerType === "date" ? (
+                <CalendarDays className="h-5 w-5 text-gray-500" />
               ) : (
                 <></>
               )}
@@ -66,6 +85,7 @@ const AnswerComponent = ({ type }: answerType) => {
                   "single select",
                   "number",
                   "url",
+                  "date",
                 ].map((type) => (
                   <button
                     key={type}
@@ -82,6 +102,8 @@ const AnswerComponent = ({ type }: answerType) => {
                       <Hash className="h-5 w-5 text-gray-500" />
                     ) : type === "url" ? (
                       <Link className="h-5 w-5 text-gray-500" />
+                    ) : type === "date" ? (
+                      <CalendarDays className="h-5 w-5 text-gray-500" />
                     ) : (
                       <></>
                     )}
@@ -94,61 +116,72 @@ const AnswerComponent = ({ type }: answerType) => {
         </div>
       </div>
 
-      <div className="space-y-4 border-2 rounded-xl bg-gray-100">
-        {answerType === "short answer" && (
-          <input
-            type="text"
-            className="bg-gray-100 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Short answer"
-          />
-        )}
-
-        {answerType === "long answer" && (
-          <textarea
-            className="bg-gray-100 rounded-md px-3 py-2 w-full h-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Long answer"
-            rows={3}
-          ></textarea>
-        )}
-
-        {answerType === "single select" && (
-          <div className="flex items-center space-x-4">
+      {answerType !== "single select" && (
+        <div className="space-y-4 border-2 rounded-xl bg-gray-100">
+          {answerType === "short answer" && (
             <input
               type="text"
-              className="bg-gray-100 rounded-md px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Single select"
+              className="bg-gray-100 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Short answer"
             />
-            <div className="flex items-center space-x-2">
+          )}
+
+          {answerType === "long answer" && (
+            <textarea
+              className="bg-gray-100 rounded-md px-3 py-2 w-full h-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Long answer"
+              rows={3}
+            ></textarea>
+          )}
+          {answerType === "date" && (
+            <div className="flex items-center">
               <input
-                type="radio"
-                className="form-radio text-blue-500 focus:ring-blue-500"
+                type="date"
+                className="bg-gray-100 rounded-md px-3 py-2 text-base flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={date}
+                onChange={handleDateChange}
+                style={{
+                  appearance: "none",
+                  WebkitAppearance: "none",
+                  MozAppearance: "none",
+                }}
               />
-              <span className="text-gray-700">Option 1</span>
             </div>
-            <div className="flex items-center space-x-2">
-              <input
-                type="radio"
-                className="form-radio text-blue-500 focus:ring-blue-500"
-              />
-              <span className="text-gray-700">Option 2</span>
-            </div>
+          )}
+
+          {answerType === "number" && (
+            <input
+              type="number"
+              className="bg-gray-100 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Number"
+            />
+          )}
+
+          {answerType === "url" && (
+            <input
+              type="url"
+              className="bg-gray-100 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="Link to your best work"
+            />
+          )}
+        </div>
+      )}
+      <div className="space-y-4 ">
+        {answerType === "single select" && (
+          <div className="space-y-4">
+            {options.map((option, index) => (
+              <div key={index} className="flex items-center space-x-4">
+                <Circle />
+                <input
+                  type="text"
+                  className=" border rounded-md px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={option}
+                  onChange={(e) => updateOption(index, e.target.value)}
+                />
+                {index === options.length - 1 && <Plus onClick={addOption} />}
+              </div>
+            ))}
           </div>
-        )}
-
-        {answerType === "number" && (
-          <input
-            type="number"
-            className="bg-gray-100 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Number"
-          />
-        )}
-
-        {answerType === "url" && (
-          <input
-            type="url"
-            className="bg-gray-100 rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Link to your best work"
-          />
         )}
       </div>
     </div>
