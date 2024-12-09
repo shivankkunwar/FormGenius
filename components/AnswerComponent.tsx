@@ -19,7 +19,7 @@ type answerType = {
   type: string;
   question?: string;
   error?: boolean;
-  onChange: ()=>{};
+  onChange: (value: any) => void;
   dragHandleProps?: any;
 };
 
@@ -53,7 +53,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
       type: answerType,
       options: answerType === "single select" ? options : undefined,
     });
-  }, [answerType, options, date]);
+  }, [answerType, options, date,onChange]);
 
   return (
     <motion.div
