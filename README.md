@@ -6,6 +6,10 @@
 
 This Form Builder Application is a dynamic, user-friendly tool built with Next.js and Tailwind CSS. It allows users to create custom forms, manage form submissions, and preview forms in real-time. The application features a drag-and-drop interface for question reordering and a comprehensive submission management system.
 
+https://github.com/user-attachments/assets/11675a43-0fd1-480b-9d4d-cfaf0500f709
+
+
+
 ## Features
 
 - **Dynamic Form Creation**: Create custom forms with various question types including short answer, long answer, single select, number, URL, and date.
