@@ -1,6 +1,6 @@
 
 'use client'
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   AlignLeft,
   ArrowUpRight,
@@ -97,7 +97,16 @@ export default function Home() {
     ]);
     setShowModal(false);
   };
-
+  
+  const handleQuestionChange = useCallback((questionId: string, updatedQuestion: Partial<questions>) => {
+    setQuestions((prevQuestions) => 
+      prevQuestions.map((q) =>
+        q.id === questionId
+          ? { ...q, ...updatedQuestion, error: false }
+          : q
+      )
+    );
+  }, []);
   const handleFormSubmit = () => {
     const newSubmission: FormSubmission = {
       id: crypto.randomUUID(),
@@ -200,21 +209,16 @@ export default function Home() {
                         items={questions}
                         strategy={verticalListSortingStrategy}
                       >
-                        {questions.map((question) => (
+                        {questions.length>0 &&questions.map((question) => (
                           <DraggableAnswerComponent
-                            key={question.id}
-                            id={question.id}
-                            type={question.type}
-                            question={question.question}
-                            error={question.error}
-                            onChange={(updatedQuestion) => {
-                              const newQuestions = questions.map((q) =>
-                                q.id === question.id
-                                  ? { ...q, ...updatedQuestion, error: false }
-                                  : q
-                              );
-                              setQuestions(newQuestions);
-                            }}
+                            key={question?.id}
+                            id={question?.id}
+                            type={question?.type}
+                            question={question?.question}
+                            error={question?.error}
+                            onChange={(updatedQuestion) => 
+                              handleQuestionChange(question.id, updatedQuestion)
+                            }
                           />
                         ))}
                       </SortableContext>

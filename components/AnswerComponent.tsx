@@ -55,7 +55,8 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
       type: answerType,
       options: answerType === "single select" ? options : undefined,
     });
-  }, [answerType, options, date,onChange]);
+   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answerType, options, date,]);
 
   return (
     <motion.div
@@ -76,7 +77,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
                   error ? "placeholder-red-500" : "placeholder-gray-400"
                 }`}
                 placeholder="Write a Question"
-                value={question}
+                value={question || ''}
                 onChange={(e) => onChange({ question: e.target.value })}
                 style={error ? { color: "red" } : {}}
               />
