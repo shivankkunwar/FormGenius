@@ -52,7 +52,7 @@ export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
     state: {
       sorting,
     },
-    // @ts-ignore
+    // @ts-expect-error: check deployment fix temporary
     onSortingChange: setSorting,
     initialState: {
       pagination: {

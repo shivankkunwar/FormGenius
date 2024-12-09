@@ -30,7 +30,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
   const [options, setOptions] = useState(["Option 1", "Option 2"]);
   const [date, setDate] = useState("");
-// @ts-ignore
+// @ts-expect-error: check deployment fix temporary
   const handleDateChange = (e) => {
     setDate(e.target.value);
   };
@@ -64,7 +64,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
     >
       <div
         className="border rounded-2xl p-6 m-4 hover:bg-gray-100"
-        // @ts-ignore
+        // @ts-expect-error: check deployment fix temporary
         style={{ "--bg-color": "inherit" }}
       >
         <div className="flex items-center justify-between mb-4">
@@ -237,7 +237,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              // @ts-ignore
+              // @ts-expect-error: check deployment fix temporary
               className="text-red-500 flex flex-row text-sm mt-2 pl-2"
             >
               <AlertCircle className="w-4 h-4 mr-1" />

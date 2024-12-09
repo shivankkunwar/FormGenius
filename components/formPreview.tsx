@@ -109,7 +109,7 @@ export default function FormPreview({ questions }: PreviewProps) {
             {q.type === 'single select' && (
               <div className="space-y-2">
                 
-                {// @ts-ignore
+                {// @ts-expect-error: check deployment fix temporary
                 q.options?.map((option, optionIndex) => (
                   <label key={optionIndex} className="flex items-center space-x-2">
                     <input

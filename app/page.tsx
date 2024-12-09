@@ -227,7 +227,7 @@ export default function Home() {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
-                        // @ts-ignore
+                        // @ts-expect-error: check deployment fix temporary
                         className="fixed inset-0 flex items-center justify-center z-10"
                       >
                         <div
@@ -307,9 +307,8 @@ export default function Home() {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      // @ts-ignore
+                      // @ts-expect-error: check deployment fix temporary
                       onClick={toggleModal}
-                      // @ts-ignore
                       className="flex items-center gap-2 text-black hover:text-gray-700 font-semibold px-4 py-2 bg-white border rounded-2xl shadow-sm"
                     >
                       <Plus size={20} />
