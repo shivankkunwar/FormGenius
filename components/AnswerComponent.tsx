@@ -62,97 +62,97 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
     <motion.div
       animate={error ? { x: [-10, 10, -10, 10, 0] } : { x: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
+       // @ts-expect-error: check deployment fix temporary
+      className="px-2 sm:px-4"
     >
       <div
-        className="border rounded-2xl p-6 m-4 hover:bg-gray-100"
+        className="border rounded-2xl m-2 p-4 sm:p-6 hover:bg-gray-100"
         // @ts-expect-error: check deployment fix temporary
         style={{ "--bg-color": "inherit" }}
       >
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center justify-between w-full">
-            <div className="flex flex-col w-full">
-              <input
-                type="text"
-                className={`rounded-md p md:p flex-1 focus:outline-none font-semibold bg-[var(--bg-color)] ${
-                  error ? "placeholder-red-500" : "placeholder-gray-400"
-                }`}
-                placeholder="Write a Question"
-                value={question || ''}
-                onChange={(e) => onChange({ question: e.target.value })}
-                style={error ? { color: "red" } : {}}
-              />
-              <input
-                type="text"
-                className="w-full rounded-md md:p flex-1 focus:outline-none font-normal md:font-light bg-[var(--bg-color)]"
-                placeholder="Write a help text or caption leave empty if not needed."
-                onChange={(e) => onChange({ caption: e.target.value })}
-              />
-            </div>
-            <div className="relative">
-              <button
-                className="rounded-md px py-2 flex items-center focus:outline-none focus:ring-blue-500"
-                onClick={() => setShowTypeDropdown(!showTypeDropdown)}
-              >
-                {answerType === "short answer" ? (
-                  <MdOutlineShortText className="h-5 w-5 text-gray-500" />
-                ) : answerType === "long answer" ? (
-                  <AlignLeft className="h-5 w-5 text-gray-500" />
-                ) : answerType === "single select" ? (
-                  <CircleDot className="h-5 w-5 text-gray-500" />
-                ) : answerType === "number" ? (
-                  <Hash className="h-5 w-5 text-gray-500" />
-                ) : answerType === "url" ? (
-                  <Link className="h-5 w-5 text-gray-500" />
-                ) : answerType === "date" ? (
-                  <CalendarDays className="h-5 w-5 text-gray-500" />
-                ) : (
-                  <></>
-                )}
-                {showTypeDropdown ? (
-                  <ChevronUp className="h-4 w-4 text-gray-500" />
-                ) : (
-                  <ChevronDown className="h-4 w-4 text-gray-500" />
-                )}
-                <div {...dragHandleProps}>
-                  <GripVertical className="ml md:ml-2 h-5 w-5 text-gray-500 cursor-grab active:cursor-grabbing" />
-                </div>
-              </button>
-              {showTypeDropdown && (
-                <div className="absolute top-full border z-10 right-0 mt-2 w-48 bg-white shadow-md rounded-md">
-                  {[
-                    "short answer",
-                    "long answer", 
-                    "single select",
-                    "number",
-                    "url",
-                    "date",
-                  ].map((type) => (
-                    <button
-                      key={type}
-                      className="flex gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
-                      onClick={() => handleAnswerTypeChange(type)}
-                    >
-                      {type === "short answer" ? (
-                        <MdOutlineShortText className="h-5 w-5 text-gray-500" />
-                      ) : type === "long answer" ? (
-                        <AlignLeft className="h-5 w-5 text-gray-500" />
-                      ) : type === "single select" ? (
-                        <CircleDot className="h-5 w-5 text-gray-500" />
-                      ) : type === "number" ? (
-                        <Hash className="h-5 w-5 text-gray-500" />
-                      ) : type === "url" ? (
-                        <Link className="h-5 w-5 text-gray-500" />
-                      ) : type === "date" ? (
-                        <CalendarDays className="h-5 w-5 text-gray-500" />
-                      ) : (
-                        <></>
-                      )}
-                      {type.charAt(0).toUpperCase() + type.slice(1)}
-                    </button>
-                  ))}
-                </div>
+        <div className="flex flex-col sm:flex-row items-center justify-between mb-4 space-y-2 sm:space-y-0">
+          <div className="flex flex-col w-full space-y-2">
+            <input
+              type="text"
+              className={`w-full rounded-md p-2 focus:outline-none font-semibold bg-[var(--bg-color)] ${
+                error ? "placeholder-red-500" : "placeholder-gray-400"
+              }`}
+              placeholder="Write a Question"
+              value={question || ''}
+              onChange={(e) => onChange({ question: e.target.value })}
+              style={error ? { color: "red" } : {}}
+            />
+            <input
+              type="text"
+              className="w-full rounded-md p-2 focus:outline-none font-normal bg-[var(--bg-color)]"
+              placeholder="Write a help text or caption leave empty if not needed."
+              onChange={(e) => onChange({ caption: e.target.value })}
+            />
+          </div>
+          <div className="relative w-full sm:w-auto flex justify-between items-center">
+            <button
+              className="rounded-md px-2 py-2 flex items-center focus:outline-none focus:ring-blue-500"
+              onClick={() => setShowTypeDropdown(!showTypeDropdown)}
+            >
+              {answerType === "short answer" ? (
+                <MdOutlineShortText className="h-5 w-5 text-gray-500" />
+              ) : answerType === "long answer" ? (
+                <AlignLeft className="h-5 w-5 text-gray-500" />
+              ) : answerType === "single select" ? (
+                <CircleDot className="h-5 w-5 text-gray-500" />
+              ) : answerType === "number" ? (
+                <Hash className="h-5 w-5 text-gray-500" />
+              ) : answerType === "url" ? (
+                <Link className="h-5 w-5 text-gray-500" />
+              ) : answerType === "date" ? (
+                <CalendarDays className="h-5 w-5 text-gray-500" />
+              ) : (
+                <></>
               )}
-            </div>
+              {showTypeDropdown ? (
+                <ChevronUp className="h-4 w-4 text-gray-500" />
+              ) : (
+                <ChevronDown className="h-4 w-4 text-gray-500" />
+              )}
+              <div {...dragHandleProps}>
+                <GripVertical className="ml-1 sm:ml-2 h-5 w-5 text-gray-500 cursor-grab active:cursor-grabbing" />
+              </div>
+            </button>
+            {showTypeDropdown && (
+              <div className="absolute top-full border z-10 right-0 mt-2 w-48 bg-white shadow-md rounded-md">
+                {[
+                  "short answer",
+                  "long answer", 
+                  "single select",
+                  "number",
+                  "url",
+                  "date",
+                ].map((type) => (
+                  <button
+                    key={type}
+                    className="flex gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                    onClick={() => handleAnswerTypeChange(type)}
+                  >
+                    {type === "short answer" ? (
+                      <MdOutlineShortText className="h-5 w-5 text-gray-500" />
+                    ) : type === "long answer" ? (
+                      <AlignLeft className="h-5 w-5 text-gray-500" />
+                    ) : type === "single select" ? (
+                      <CircleDot className="h-5 w-5 text-gray-500" />
+                    ) : type === "number" ? (
+                      <Hash className="h-5 w-5 text-gray-500" />
+                    ) : type === "url" ? (
+                      <Link className="h-5 w-5 text-gray-500" />
+                    ) : type === "date" ? (
+                      <CalendarDays className="h-5 w-5 text-gray-500" />
+                    ) : (
+                      <></>
+                    )}
+                    {type.charAt(0).toUpperCase() + type.slice(1)}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
@@ -180,7 +180,7 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
               <div className="flex items-center">
                 <input
                   type="date"
-                  className="bg-gray-100 rounded-md px-3 py-2 text-base flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="bg-gray-100 rounded-md px-3 py-2 text-base w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                   value={date}
                   onChange={handleDateChange}
                   style={{
@@ -213,19 +213,19 @@ const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: a
           </div>
         )}
 
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           {answerType === "single select" && (
             <div className="space-y-4">
               {options.map((option, index) => (
-                <div key={index} className="flex items-center space-x-4">
-                  <Circle />
+                <div key={index} className="flex items-center space-x-2 sm:space-x-4">
+                  <Circle className="shrink-0" />
                   <input
                     type="text"
-                    className="border rounded-md px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border rounded-md px-2 py-1 sm:px-3 sm:py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={option}
                     onChange={(e) => updateOption(index, e.target.value)}
                   />
-                  {index === options.length - 1 && <Plus onClick={addOption} />}
+                  {index === options.length - 1 && <Plus className="shrink-0" onClick={addOption} />}
                 </div>
               ))}
             </div>
