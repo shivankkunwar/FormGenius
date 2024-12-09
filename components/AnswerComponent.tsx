@@ -14,13 +14,16 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { MdOutlineShortText } from "react-icons/md";
+
 type answerType = {
   type: string;
   question?: string;
   error?: boolean;
   onChange: any;
+  dragHandleProps?: any;
 };
-const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
+
+const AnswerComponent = ({ type, question, error, onChange, dragHandleProps }: answerType) => {
   const [answerType, setAnswerType] = useState(type);
   const [showTypeDropdown, setShowTypeDropdown] = useState(false);
   const [options, setOptions] = useState(["Option 1", "Option 2"]);
@@ -29,6 +32,7 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
   const handleDateChange = (e) => {
     setDate(e.target.value);
   };
+
   const addOption = () => {
     setOptions([...options, `Option ${options.length + 1}`]);
   };
@@ -38,6 +42,7 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
     updatedOptions[index] = value;
     setOptions(updatedOptions);
   };
+
   const handleAnswerTypeChange = (type) => {
     setAnswerType(type);
     setShowTypeDropdown(false);
@@ -56,11 +61,11 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <div
-        className=" border rounded-2xl p-6 m-4 hover:bg-gray-100 "
+        className="border rounded-2xl p-6 m-4 hover:bg-gray-100"
         style={{ "--bg-color": "inherit" }}
       >
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center justify-between w-full ">
+          <div className="flex items-center justify-between w-full">
             <div className="flex flex-col w-full">
               <input
                 type="text"
@@ -68,19 +73,20 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
                   error ? "placeholder-red-500" : "placeholder-gray-400"
                 }`}
                 placeholder="Write a Question"
+                value={question}
                 onChange={(e) => onChange({ question: e.target.value })}
                 style={error ? { color: "red" } : {}}
               />
               <input
                 type="text"
-                className=" w-full rounded-md  md:p flex-1 focus:outline-none font-normal md:font-light  bg-[var(--bg-color)] "
+                className="w-full rounded-md md:p flex-1 focus:outline-none font-normal md:font-light bg-[var(--bg-color)]"
                 placeholder="Write a help text or caption leave empty if not needed."
                 onChange={(e) => onChange({ caption: e.target.value })}
               />
             </div>
             <div className="relative">
               <button
-                className=" rounded-md px py-2 flex items-center  focus:outline-none  focus:ring-blue-500"
+                className="rounded-md px py-2 flex items-center focus:outline-none focus:ring-blue-500"
                 onClick={() => setShowTypeDropdown(!showTypeDropdown)}
               >
                 {answerType === "short answer" ? (
@@ -103,13 +109,15 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
                 ) : (
                   <ChevronDown className="h-4 w-4 text-gray-500" />
                 )}
-                <GripVertical className="ml-3 md:ml-2 h-5 w-5 text-gray-500" />
+                <div {...dragHandleProps}>
+                  <GripVertical className="ml-3 md:ml-2 h-5 w-5 text-gray-500 cursor-grab active:cursor-grabbing" />
+                </div>
               </button>
               {showTypeDropdown && (
-                <div className="absolute top-full border z-10  right-0 mt-2 w-48 bg-white shadow-md rounded-md">
+                <div className="absolute top-full border z-10 right-0 mt-2 w-48 bg-white shadow-md rounded-md">
                   {[
                     "short answer",
-                    "long answer",
+                    "long answer", 
                     "single select",
                     "number",
                     "url",
@@ -117,7 +125,7 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
                   ].map((type) => (
                     <button
                       key={type}
-                      className=" flex gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
+                      className="flex gap-2 w-full text-left px-4 py-2 hover:bg-gray-100 focus:outline-none focus:bg-gray-100"
                       onClick={() => handleAnswerTypeChange(type)}
                     >
                       {type === "short answer" ? (
@@ -163,6 +171,7 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
                 disabled={true}
               ></textarea>
             )}
+
             {answerType === "date" && (
               <div className="flex items-center">
                 <input
@@ -199,7 +208,8 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
             )}
           </div>
         )}
-        <div className="space-y-4 ">
+
+        <div className="space-y-4">
           {answerType === "single select" && (
             <div className="space-y-4">
               {options.map((option, index) => (
@@ -207,7 +217,7 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
                   <Circle />
                   <input
                     type="text"
-                    className=" border rounded-md px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="border rounded-md px-3 py-2 flex-1 focus:outline-none focus:ring-2 focus:ring-blue-500"
                     value={option}
                     onChange={(e) => updateOption(index, e.target.value)}
                   />
@@ -217,6 +227,7 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
             </div>
           )}
         </div>
+
         <AnimatePresence>
           {error && (
             <motion.div
@@ -225,7 +236,6 @@ const AnswerComponent = ({ type, question, error, onChange }: answerType) => {
               exit={{ opacity: 0, y: -10 }}
               className="text-red-500 flex flex-row text-sm mt-2 pl-2"
             >
-              {" "}
               <AlertCircle className="w-4 h-4 mr-1" />
               Please fill in the required field
             </motion.div>
