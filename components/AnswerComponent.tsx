@@ -14,12 +14,12 @@ import {
 } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { MdOutlineShortText } from "react-icons/md";
-
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type answerType = {
   type: string;
   question?: string;
   error?: boolean;
-  onChange: any;
+  onChange: ()=>{};
   dragHandleProps?: any;
 };
 
