@@ -108,7 +108,9 @@ export default function FormPreview({ questions }: PreviewProps) {
             )}
             {q.type === 'single select' && (
               <div className="space-y-2">
-                {q.options?.map((option, optionIndex) => (
+                
+                {// @ts-ignore
+                q.options?.map((option, optionIndex) => (
                   <label key={optionIndex} className="flex items-center space-x-2">
                     <input
                       type="radio"

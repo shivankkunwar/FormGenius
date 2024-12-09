@@ -52,6 +52,7 @@ export const SubmissionsTable = ({ submissions }: SubmissionsTableProps) => {
     state: {
       sorting,
     },
+    // @ts-ignore
     onSortingChange: setSorting,
     initialState: {
       pagination: {
